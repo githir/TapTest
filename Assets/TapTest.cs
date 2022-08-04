@@ -13,9 +13,12 @@ public class TapTest : MonoBehaviour
     private float spd_y_max = 0;
     private float spd_x = 0;
     private float spd_y = 0;
+    private float prev_x = 0;
+    private float lastThrough = 0;
 
     public int numBalls = 0;
     public int maxNumBalls = 0;
+    public float throughInterval = 0.2f;
 
     // Start is called before the first frame update
     void Start()
@@ -57,15 +60,30 @@ public class TapTest : MonoBehaviour
                 Debug.Log("t.tapCount " + t.tapCount);
                 //   Debug.Log("t.type" + t.type);
 
-                Debug.Log("numBalls " + numBalls);
-                if (numBalls < maxNumBalls)
+                if (Mathf.Abs(prev_x) < Mathf.Abs(spd_x))
                 {
-                    GameObject ball = Instantiate(ballPrefab);
-                    ball.transform.position = new Vector3(1, 1, 0);
-                    Rigidbody rb = ball.GetComponent<Rigidbody>();
-                    Vector3 force = new Vector3(spd_x / 10f, spd_x / 10f, spd_y / 10f);
-                    rb.AddForce(force);
-                    numBalls += 1;
+                    Debug.Log("throughInterval" + throughInterval);
+                    if (Time.time - lastThrough > throughInterval)
+                    {
+
+                        Debug.Log("numBalls " + numBalls);
+                        if (numBalls < maxNumBalls)
+                        {
+                            GameObject ball = Instantiate(ballPrefab);
+                            ball.transform.position = new Vector3(0, 2, 0);
+                            Rigidbody rb = ball.GetComponent<Rigidbody>();
+                            //                    Vector3 force = new Vector3(spd_x / 10f, spd_x / 10f, spd_y / 10f);
+                            Vector3 force = new Vector3(spd_x, spd_x, spd_y);
+                            rb.AddForce(force);
+                            numBalls += 1;
+                        }
+                        prev_x = 0;
+                        lastThrough = Time.time;
+                    }
+                }
+                else
+                {
+                    prev_x = spd_x;
                 }
             }
         }
