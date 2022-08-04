@@ -85,6 +85,7 @@ public class TapTest : MonoBehaviour
                             //                    Vector3 force = new Vector3(spd_x / 10f, spd_x / 10f, spd_y / 10f);
                             Vector3 force = new Vector3(spd_x, spd_x, spd_y);
                             rb.AddForce(force);
+                            rb.AddTorque(Random.Range(0.0f, 10.0f), Random.Range(0.0f, 10.0f), Random.Range(0.0f, 10.0f), ForceMode.Impulse);
                             numBalls += 1;
                         }
                         prev_x = 0;
