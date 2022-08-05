@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TapTest : MonoBehaviour
 {
+<<<<<<< HEAD
     GameObject g;
     public GameObject ballPrefab;
 
@@ -20,19 +21,20 @@ public class TapTest : MonoBehaviour
     public int maxNumBalls = 0;
     public float throughInterval = 0.2f;
 
+=======
+>>>>>>> parent of 18a3bb6 (add flick and spawn)
     // Start is called before the first frame update
     void Start()
     {
-        g = GameObject.Find("Sphere");
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        Debug.Log("touchCount" + Input.touchCount);
-        if (Input.touchCount > 0)
+        if(Input.touchCount > 0)
         {
+<<<<<<< HEAD
             for (int i = 0; i < Input.touchCount; i++)
             {
                 Touch t = Input.GetTouch(i);
@@ -86,17 +88,23 @@ public class TapTest : MonoBehaviour
                     prev_x = spd_x;
                 }
             }
+=======
+        Touch t = Input.GetTouch(0);
+        Debug.Log(t.altitudeAngle);
+        Debug.Log(t.azimuthAngle);
+        Debug.Log(t.deltaPosition);
+        Debug.Log(t.deltaTime);
+        Debug.Log(t.fingerId);
+        Debug.Log(t.maximumPossiblePressure);
+        Debug.Log(t.phase);
+        Debug.Log(t.position);
+        Debug.Log(t.pressure);
+        Debug.Log(t.radius);
+        Debug.Log(t.radiusVariance);
+        Debug.Log(t.rawPosition);
+        Debug.Log(t.tapCount);
+        Debug.Log(t.type);
+>>>>>>> parent of 18a3bb6 (add flick and spawn)
         }
-        else
-        {
-            spd_x = 0.99f * spd_x;
-            spd_y = 0.99f * spd_y;
-        }
-
-        Vector3 pos = g.transform.position;
-        pos.x = spd_x / 1000f;
-        pos.y = 0.0f;
-        pos.z = spd_y / 1000f;
-        g.transform.position = pos;
     }
 }
