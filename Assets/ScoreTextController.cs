@@ -1,19 +1,19 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ScoreTextController : MonoBehaviour
 {
-    //ƒXƒRƒA‚ğ•\¦‚·‚éƒeƒLƒXƒg
+    //ã‚¹ã‚³ã‚¢ã‚’è¡¨ç¤ºã™ã‚‹ãƒ†ã‚­ã‚¹ãƒˆ
     private GameObject scoreText;
-    //“¾“_
+    //å¾—ç‚¹
     public int score;
 
     // Start is called before the first frame update
     void Start()
     {
-        //ƒV[ƒ“’†‚ÌscoreTextƒIƒuƒWƒFƒNƒg‚ğæ“¾
+        //ã‚·ãƒ¼ãƒ³ä¸­ã®scoreTextã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—
         this.scoreText = GameObject.Find("ScoreText");
         score = 0;
     }

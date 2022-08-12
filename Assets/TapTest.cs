@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TapTest : MonoBehaviour
 {
@@ -21,22 +22,34 @@ public class TapTest : MonoBehaviour
     public int maxNumBalls = 1;
     public float throughInterval = 0.2f;
 
+    public float fixPower = 4.0f;
+
+    public float elevationAngle = 45.0f;
+    private GameObject elevationAngleText;
 
     // Start is called before the first frame update
     void Start()
     {
         g = GameObject.Find("Sphere");
         scoreText = GameObject.Find("ScoreText");
+        elevationAngleText = GameObject.Find("ElevationAngleText");
 
-            lastThrough = Time.time;
+        lastThrough = Time.time;
     //    throughInterval = 0.2f;
     }
 
     // Update is called once per frame
     void Update()
     {
+        // Debug.Log(Input.acceleration[1]);
+        elevationAngle = Mathf.Round(45.0f - Input.acceleration[1] / 2 * 100);
+     //   elevationAngle = 45.0f; // for debug
 
-        Debug.Log("touchCount" + Input.touchCount);
+        elevationAngleText.GetComponent<Text>().text = " " + elevationAngle;
+        elevationAngle = Mathf.Deg2Rad * elevationAngle;
+
+
+        //        Debug.Log("touchCount" + Input.touchCount);
         if (Input.touchCount > 0)
         {
             for (int i = 0; i < Input.touchCount; i++)
@@ -72,18 +85,20 @@ public class TapTest : MonoBehaviour
 
                 if (Mathf.Abs(prev_x) < Mathf.Abs(spd_x) )
                 {
-                    Debug.Log("throughInterval"+throughInterval);
+                 //   Debug.Log("throughInterval"+throughInterval);
                     if (Time.time - lastThrough > throughInterval)
                         {
 
-                        Debug.Log("numBalls " + numBalls);
+                  //      Debug.Log("numBalls " + numBalls);
                         if (numBalls < maxNumBalls)
                         {
                             GameObject ball = Instantiate(ballPrefab);
                             ball.transform.position = new Vector3(0, 2, 0);
                             Rigidbody rb = ball.GetComponent<Rigidbody>();
                             //                    Vector3 force = new Vector3(spd_x / 10f, spd_x / 10f, spd_y / 10f);
-                            Vector3 force = new Vector3(spd_x, spd_x, spd_y);
+                            //           Vector3 force = new Vector3(spd_x, spd_x, spd_y);
+                            Vector3 force = new Vector3(fixPower * Mathf.Cos(elevationAngle), fixPower * Mathf.Sin(elevationAngle), 0);  // for debug
+                  //          Vector3 force = new Vector3(fixPower , fixPower, 0);  // for debug
                             rb.AddForce(force);
                             rb.AddTorque(Random.Range(0.0f, 10.0f), Random.Range(0.0f, 10.0f), Random.Range(0.0f, 10.0f), ForceMode.Impulse);
                             numBalls += 1;

@@ -10,7 +10,10 @@ public class BallController : MonoBehaviour
 
     float born;
     public Vector3 force = new Vector3(0.0f, 0.0f, 1.0f);    // 力を設定
-    private bool isGoal;
+    private bool isGoal = false;
+
+    private int myScore =0; //自分が持っている玉の数
+    public GameObject myHomeObject;
 
     // Start is called before the first frame update
     void Start()
@@ -41,30 +44,55 @@ public class BallController : MonoBehaviour
                     g.GetComponent<TapTest>().numBalls -= 1;
                 }
             }
-          //  Debug.Log(velocity.sqrMagnitude);
+            //  Debug.Log(velocity.sqrMagnitude);
         }
     }
 
 
     void OnTriggerEnter(Collider other)
+    //    private void OnCollisionEnter(Collision collision)
     {
-        //Goalに衝突した場合
-        if (other.gameObject.tag == "GoalTag")
+        //    Debug.Log("enter ;" + other.tag);
+        Debug.Log("isGoal " + isGoal);
+        //Goalエリアに入った場合
+        if ((other.gameObject.tag == "GoalTag") && (this.isGoal != true))
         {
-            Debug.Log("touch GoalCircle");
+            Debug.Log("touch GoalArea");
             this.isGoal = true;
             scoreText.GetComponent<ScoreTextController>().score += 1;
-        }
+            Debug.Log("score +=1 -> " + scoreText.GetComponent<ScoreTextController>().score);
 
+            myHomeObject = other.gameObject;
+     //       myScore += 1;
+     //       Debug.Log("get" + myHomeObject.name + ":" + myScore);
+        }
+        //NoGoalエリアに入った場合
+        if (other.gameObject.tag == "NoGoalAreaTag" && this.isGoal == true)
+//            if (other.gameObject.tag == "NoGoalAreaTag")
+            {
+                Debug.Log("touch NoGoalArea");
+            this.isGoal = false;
+            scoreText.GetComponent<ScoreTextController>().score -= 1;
+            Debug.Log("score -=1 -> " + scoreText.GetComponent<ScoreTextController>().score);
+      //      myScore -= 1;
+      //      Debug.Log("lost" + myHomeObject.name + ":" + myScore);
+        }
     }
+
+    /*
     private void OnTriggerExit(Collider other)
+    // private void OnCollisionExit(Collision collision)
     {
-        //Goalに衝突した場合
-        if (other.gameObject.tag == "GoalTag")
+        Debug.Log("exit ;" + other.tag);
+        //自分のGoalエリアから外れた場合
+        if (other.gameObject.tag == "GoalAreaTag")
         {
             Debug.Log("detouch GoalCircle");
             this.isGoal = false;
             scoreText.GetComponent<ScoreTextController>().score -= 1;
+            myScore -= 1; //ボールいなくなった
+            Debug.Log("lost" + myHomeObject.name + ":" + myScore);
         }
     }
+    */
 }
