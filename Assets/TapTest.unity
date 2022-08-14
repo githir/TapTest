@@ -6598,7 +6598,7 @@ MonoBehaviour:
   numBalls: 0
   maxNumBalls: 50
   throughInterval: 0.5
-  fixPower: 1700
+  fixPower: 200
   elevationAngle: 45
 --- !u!4 &1153497065
 Transform:

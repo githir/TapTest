@@ -22,7 +22,7 @@ public class TapTest : MonoBehaviour
     public int maxNumBalls = 1;
     public float throughInterval = 0.2f;
 
-    public float fixPower = 4.0f;
+    public float fixPower = 1000.0f;
 
     public float elevationAngle = 45.0f;
     private GameObject elevationAngleText;

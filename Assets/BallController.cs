@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,18 +9,18 @@ public class BallController : MonoBehaviour
     GameObject scoreText;
 
     float born;
-    public Vector3 force = new Vector3(0.0f, 0.0f, 1.0f);    // —Í‚ğİ’è
+    public Vector3 force = new Vector3(0.0f, 0.0f, 1.0f);    // åŠ›ã‚’è¨­å®š
     private bool isGoal = false;
 
-    private int myScore =0; //©•ª‚ª‚Á‚Ä‚¢‚é‹Ê‚Ì”
+    private int myScore = 0; //è‡ªåˆ†ãŒæŒã£ã¦ã„ã‚‹ç‰ã®æ•°
     public GameObject myHomeObject;
 
     // Start is called before the first frame update
     void Start()
     {
         //        g = GameObject.Find("BallPrefab");
-        //        rb = this.GetComponent<Rigidbody>();  // rigidbody‚ğæ“¾
-        //        rb.AddForce(force, ForceMode.Impulse);  // —Í‚ğ‰Á‚¦‚é
+        //        rb = this.GetComponent<Rigidbody>();  // rigidbodyã‚’å–å¾—
+        //        rb.AddForce(force, ForceMode.Impulse);  // åŠ›ã‚’åŠ ãˆã‚‹
         g = GameObject.Find("GameObject");
         rb = GetComponent<Rigidbody>();
         born = Time.time;
@@ -54,28 +54,33 @@ public class BallController : MonoBehaviour
     {
         //    Debug.Log("enter ;" + other.tag);
         Debug.Log("isGoal " + isGoal);
-        //GoalƒGƒŠƒA‚É“ü‚Á‚½ê‡
-        if ((other.gameObject.tag == "GoalTag") && (this.isGoal != true))
+        //Goalã‚¨ãƒªã‚¢ã«å…¥ã£ãŸå ´åˆ
+        if (other.gameObject.tag == "GoalTag")
         {
             Debug.Log("touch GoalArea");
-            this.isGoal = true;
-            scoreText.GetComponent<ScoreTextController>().score += 1;
-            Debug.Log("score +=1 -> " + scoreText.GetComponent<ScoreTextController>().score);
-
             myHomeObject = other.gameObject;
-     //       myScore += 1;
-     //       Debug.Log("get" + myHomeObject.name + ":" + myScore);
-        }
-        //NoGoalƒGƒŠƒA‚É“ü‚Á‚½ê‡
-        if (other.gameObject.tag == "NoGoalAreaTag" && this.isGoal == true)
-//            if (other.gameObject.tag == "NoGoalAreaTag")
+
+            if (this.isGoal != true)
             {
-                Debug.Log("touch NoGoalArea");
+                this.isGoal = true;
+                scoreText.GetComponent<ScoreTextController>().score += 1;
+                Debug.Log("score +=1 -> " + scoreText.GetComponent<ScoreTextController>().score);
+
+                //       myScore += 1;
+                //       Debug.Log("get" + myHomeObject.name + ":" + myScore);
+            }
+        }
+
+        //NoGoalã‚¨ãƒªã‚¢ã«å…¥ã£ãŸå ´åˆ
+        if (other.gameObject.tag == "NoGoalAreaTag" && this.isGoal == true)
+        //            if (other.gameObject.tag == "NoGoalAreaTag")
+        {
+            Debug.Log("touch NoGoalArea");
             this.isGoal = false;
             scoreText.GetComponent<ScoreTextController>().score -= 1;
             Debug.Log("score -=1 -> " + scoreText.GetComponent<ScoreTextController>().score);
-      //      myScore -= 1;
-      //      Debug.Log("lost" + myHomeObject.name + ":" + myScore);
+            //      myScore -= 1;
+            //      Debug.Log("lost" + myHomeObject.name + ":" + myScore);
         }
     }
 
@@ -84,13 +89,13 @@ public class BallController : MonoBehaviour
     // private void OnCollisionExit(Collision collision)
     {
         Debug.Log("exit ;" + other.tag);
-        //©•ª‚ÌGoalƒGƒŠƒA‚©‚çŠO‚ê‚½ê‡
+        //è‡ªåˆ†ã®Goalã‚¨ãƒªã‚¢ã‹ã‚‰å¤–ã‚ŒãŸå ´åˆ
         if (other.gameObject.tag == "GoalAreaTag")
         {
             Debug.Log("detouch GoalCircle");
             this.isGoal = false;
             scoreText.GetComponent<ScoreTextController>().score -= 1;
-            myScore -= 1; //ƒ{[ƒ‹‚¢‚È‚­‚È‚Á‚½
+            myScore -= 1; //ãƒœãƒ¼ãƒ«ã„ãªããªã£ãŸ
             Debug.Log("lost" + myHomeObject.name + ":" + myScore);
         }
     }
