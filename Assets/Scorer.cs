@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -139,5 +139,47 @@ public class Scorer : MonoBehaviour
   //          Debug.Log(str + ", no change :" + str_bool);
             Debug.Log(str);
         }
+        Debug.Log("scoreTotal = " + GetScore(scoreMap));
+    }
+
+    //スリーアイズ的なスコア集計   https://japan-3eyes.net/
+    int GetScore(int[,] x)
+    {
+        int scoreTotal;
+        int lineCount = 0;
+
+        //行
+        int Col_0 = x[0,0] * x[1,0] * x[2,0];
+        if (Col_0 > 0) lineCount++;
+        int Col_1 = x[0,1] * x[1,1] * x[2,1];
+        if (Col_1 > 0) lineCount++;
+        int Col_2 = x[0,2] * x[1,2] * x[2,2];
+        if (Col_2 > 0) lineCount++;
+
+        //列
+        int Row_0 = x[0,0] * x[0,1] * x[0,2];
+        if (Row_0 > 0) lineCount++;
+        int Row_1 = x[1,0] * x[1,1] * x[1,2];
+        if (Row_1 > 0) lineCount++;
+        int Row_2 = x[2,0] * x[2,1] * x[2,2];
+        if (Row_2 > 0) lineCount++;
+
+        //対角
+        int Diag_0 = x[0,0] * x[1,1] * x[2,2];
+        if (Diag_0 > 0) lineCount++;
+        int Diag_1 = x[0,2] * x[1,1] * x[2,0];
+        if (Diag_1 > 0) lineCount++;
+
+        //パーフェクト？
+        if (lineCount > 1)
+        {
+            scoreTotal = 5;
+        }
+        else
+        {
+            scoreTotal = Col_0 + Col_1 + Col_2 + Row_0 + Row_1 + Row_2 + Diag_0 + Diag_1;
+        }
+
+        return (scoreTotal);
     }
 }
