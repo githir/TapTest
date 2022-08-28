@@ -15,6 +15,8 @@ public class Scorer : MonoBehaviour
 
     private GameObject scoreTotalText;
 
+    public int scoreTotal;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -145,10 +147,10 @@ public class Scorer : MonoBehaviour
             //          Debug.Log(str + ", no change :" + str_bool);
             Debug.Log(str);
         }
-        int scoreTotal = GetScore(scoreMap);
+        scoreTotal = GetScore(scoreMap);
         Debug.Log("scoreTotal = " + scoreTotal);
 
-        scoreTotalText.GetComponent<Text>().text = scoreTotal.ToString() + " pts.";
+
  
     }
 

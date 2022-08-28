@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/TapTest.unity
+    guid: 00ab1e38d1b42854e9761056672fcbe4
   m_configObjects: {}
