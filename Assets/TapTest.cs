@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class TapTest : MonoBehaviour
 {
@@ -29,6 +30,11 @@ public class TapTest : MonoBehaviour
 
     public float MaxAngle_x = 30.0f;
 
+    private GameObject scoreTotalText;
+    private GameObject scoreTotal;
+
+    private bool isGameOver;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,7 +47,16 @@ public class TapTest : MonoBehaviour
        // goalAreaObject.GetComponent<Renderer>().material.color = Color.red;
 
         lastThrough = Time.time;
-    //    throughInterval = 0.2f;
+        //    throughInterval = 0.2f;
+
+        scoreTotalText = GameObject.Find("ScoreTotalText");
+        // scoreTotalText.SetActive(false);
+        scoreTotalText.GetComponent<Text>().text = " ";
+
+        scoreTotal = GameObject.Find("MyGameObject");
+
+        isGameOver = false;
+
     }
 
     // Update is called once per frame
@@ -146,6 +161,13 @@ public class TapTest : MonoBehaviour
                     prev_x = spd_x;
                 }
             }
+
+            if (numBalls == maxNumBalls)
+            {
+             //   scoreTotalText.SetActive(true);
+                isGameOver = true;
+            }
+
         }
         else
         {
@@ -158,5 +180,19 @@ public class TapTest : MonoBehaviour
         pos.y = 0.0f;
         pos.z = spd_y / 1000f;
         g.transform.position = pos;
+
+
+        // ゲームオーバーになった場合
+        if (this.isGameOver == true)
+        {
+            scoreTotalText.GetComponent<Text>().text = scoreTotal.ToString() + " pts.";
+            // クリックされたらシーンをロードする
+            if (Input.GetMouseButtonDown(0))
+            {
+                //SampleSceneを読み込む
+                SceneManager.LoadScene("TapTest");
+            }
+        }
     }
+
 }

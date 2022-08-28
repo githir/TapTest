@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Scorer : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class Scorer : MonoBehaviour
     private GameObject[,] goalAreaObject;
     private Renderer[,] goalAreaObjectRenderer;
     private Color[,] goalAreaObjectColor;
+
+    private GameObject scoreTotalText;
 
     // Start is called before the first frame update
     void Start()
@@ -24,17 +27,17 @@ public class Scorer : MonoBehaviour
 
         goalAreaObject = new GameObject[3, 3];
         goalAreaObjectRenderer = new Renderer[3, 3];
-//        goalAreaObjectColor = new Color[3, 3];
+        //        goalAreaObjectColor = new Color[3, 3];
 
         for (int i = 0; i < 3; i++)
         {
             for (int j = 0; j < 3; j++)
             {
                 string objectName = "GoalSquarePrefab " + j + "-" + i;
-                Debug.Log("init gameObject:" + i +","+ j + "," + objectName);
+                Debug.Log("init gameObject:" + i + "," + j + "," + objectName);
                 goalAreaObject[i, j] = GameObject.Find(objectName);
                 goalAreaObjectRenderer[i, j] = goalAreaObject[i, j].GetComponent<Renderer>();
-//                goalAreaObjectColor[i, j] = goalAreaObject[i, j].GetComponent<Renderer>().material.color;
+                //                goalAreaObjectColor[i, j] = goalAreaObject[i, j].GetComponent<Renderer>().material.color;
             }
         }
         /* check
@@ -46,6 +49,9 @@ public class Scorer : MonoBehaviour
             }
         }
         */
+
+        scoreTotalText = GameObject.Find("ScoreTotalText");
+
     }
 
     // Update is called once per frame
@@ -62,21 +68,21 @@ public class Scorer : MonoBehaviour
             //   Debug.Log("" + count + " " + ballTag.GetComponent<Transform>().position + " " + ballTag.GetComponent<BallController>().myHomeObject.name);
             //   string objectName = ballTag.GetComponent<BallController>().myHomeObject.name;
 
-            if(ballTag.GetComponent<BallController>().myHomeObject == null)
+            if (ballTag.GetComponent<BallController>().myHomeObject == null)
             {
-            //    Debug.Log("where is myHome?");
+                //    Debug.Log("where is myHome?");
                 continue;
             }
             string objectName = ballTag.GetComponent<BallController>().myHomeObject.name;
 
-         //   Debug.Log("myHomeObject.name " + objectName);
+            //   Debug.Log("myHomeObject.name " + objectName);
 
             if (objectName.Contains("NoGoalArea"))
             {
                 continue;
             }
 
-            if (! objectName.Contains("Goal"))
+            if (!objectName.Contains("Goal"))
             {
                 continue;
             }
@@ -84,7 +90,7 @@ public class Scorer : MonoBehaviour
             string[] objectName_ID = ballTag.GetComponent<BallController>().myHomeObject.name.Split(' ')[1].Split('-');
             int col = int.Parse(objectName_ID[0]);
             int row = int.Parse(objectName_ID[1]);
-          //  Debug.Log(count + "> col:" + col + ", row:" + row);
+            //  Debug.Log(count + "> col:" + col + ", row:" + row);
 
             scoreMap[row, col] += 1;
 
@@ -97,7 +103,7 @@ public class Scorer : MonoBehaviour
                 {
                     str = str + len[i, j] + " ";
                 }
-         //        Debug.Log(str);
+                //        Debug.Log(str);
             }
         }
 
@@ -129,17 +135,21 @@ public class Scorer : MonoBehaviour
                 else
                 {
                     goalAreaObjectRenderer[i, j].material.color = Color.red;
-                  //  goalAreaObjectColor[i, j] = Color.red;
+                    //  goalAreaObjectColor[i, j] = Color.red;
                 }
-             //   Debug.Log("search:" + i + "," + j + " > " + scoreMap_prev[i, j] + " to " + scoreMap[i, j]);
-                 //                   scoreMap_prev = scoreMap;
+                //   Debug.Log("search:" + i + "," + j + " > " + scoreMap_prev[i, j] + " to " + scoreMap[i, j]);
+                //                   scoreMap_prev = scoreMap;
 
 
             }
-  //          Debug.Log(str + ", no change :" + str_bool);
+            //          Debug.Log(str + ", no change :" + str_bool);
             Debug.Log(str);
         }
-        Debug.Log("scoreTotal = " + GetScore(scoreMap));
+        int scoreTotal = GetScore(scoreMap);
+        Debug.Log("scoreTotal = " + scoreTotal);
+
+        scoreTotalText.GetComponent<Text>().text = scoreTotal.ToString() + " pts.";
+ 
     }
 
     //スリーアイズ的なスコア集計   https://japan-3eyes.net/
@@ -149,25 +159,25 @@ public class Scorer : MonoBehaviour
         int lineCount = 0;
 
         //行
-        int Col_0 = x[0,0] * x[1,0] * x[2,0];
+        int Col_0 = x[0, 0] * x[1, 0] * x[2, 0];
         if (Col_0 > 0) lineCount++;
-        int Col_1 = x[0,1] * x[1,1] * x[2,1];
+        int Col_1 = x[0, 1] * x[1, 1] * x[2, 1];
         if (Col_1 > 0) lineCount++;
-        int Col_2 = x[0,2] * x[1,2] * x[2,2];
+        int Col_2 = x[0, 2] * x[1, 2] * x[2, 2];
         if (Col_2 > 0) lineCount++;
 
         //列
-        int Row_0 = x[0,0] * x[0,1] * x[0,2];
+        int Row_0 = x[0, 0] * x[0, 1] * x[0, 2];
         if (Row_0 > 0) lineCount++;
-        int Row_1 = x[1,0] * x[1,1] * x[1,2];
+        int Row_1 = x[1, 0] * x[1, 1] * x[1, 2];
         if (Row_1 > 0) lineCount++;
-        int Row_2 = x[2,0] * x[2,1] * x[2,2];
+        int Row_2 = x[2, 0] * x[2, 1] * x[2, 2];
         if (Row_2 > 0) lineCount++;
 
         //対角
-        int Diag_0 = x[0,0] * x[1,1] * x[2,2];
+        int Diag_0 = x[0, 0] * x[1, 1] * x[2, 2];
         if (Diag_0 > 0) lineCount++;
-        int Diag_1 = x[0,2] * x[1,1] * x[2,0];
+        int Diag_1 = x[0, 2] * x[1, 1] * x[2, 0];
         if (Diag_1 > 0) lineCount++;
 
         //パーフェクト？

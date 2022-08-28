@@ -43,7 +43,7 @@ public class BallController : MonoBehaviour
                 if (this.isGoal == false)
                 {
                     Destroy(this.gameObject);
-                    g.GetComponent<TapTest>().numBalls -= 1;
+// g.GetComponent<TapTest>().numBalls -= 1;
                 }
             }
             //  Debug.Log(velocity.sqrMagnitude);
